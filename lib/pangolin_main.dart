@@ -20,15 +20,15 @@ StreamController<BasePangolinResponse> _pangolinResponseEventHandlerController =
 Stream<BasePangolinResponse> get pangolinResponseEventHandler =>
     _pangolinResponseEventHandlerController.stream;
 
-Future<bool> registerPangolin({
-  @required String appId,
-  @required bool useTextureView,
-  @required String appName,
-  @required bool allowShowNotify,
-  @required bool allowShowPageWhenScreenLock,
-  @required bool debug,
-  @required bool supportMultiProcess,
-  List<int> directDownloadNetworkType,
+Future<bool?> registerPangolin({
+  required String appId,
+  required bool useTextureView,
+  required String appName,
+  required bool allowShowNotify,
+  required bool allowShowPageWhenScreenLock,
+  required bool debug,
+  required bool supportMultiProcess,
+  List<int>? directDownloadNetworkType,
 }) async {
   return await _channel.invokeMethod("register", {
     "appId": appId,
@@ -48,24 +48,24 @@ Future<bool> registerPangolin({
   });
 }
 
-Future<bool> loadSplashAd(
-    {@required String mCodeId, @required bool debug}) async {
+Future<bool?> loadSplashAd(
+    {required String mCodeId, required bool debug}) async {
   return await _channel
       .invokeMethod("loadSplashAd", {"mCodeId": mCodeId, "debug": debug});
 }
 
 Future loadRewardAd({
-  @required String mCodeId,
-  @required bool debug,
-  @required bool supportDeepLink,
-  @required String rewardName,
-  @required int rewardAmount,
-  @required bool isExpress,
-  double expressViewAcceptedSizeH,
-  double expressViewAcceptedSizeW,
-  @required userID,
-  String mediaExtra,
-  @required bool isHorizontal,
+  required String mCodeId,
+  required bool debug,
+  required bool supportDeepLink,
+  required String rewardName,
+  required int rewardAmount,
+  required bool isExpress,
+  double? expressViewAcceptedSizeH,
+  double? expressViewAcceptedSizeW,
+  required userID,
+  String? mediaExtra,
+  required bool isHorizontal,
 }) async {
   return await _channel.invokeMethod("loadRewardAd", {
     "mCodeId": mCodeId,
@@ -83,13 +83,13 @@ Future loadRewardAd({
 }
 
 Future loadBannerAd({
-  @required String mCodeId,
-  @required bool supportDeepLink,
-  double expressViewWidth,
-  double expressViewHeight,
-  bool isCarousel,
-  int interval,
-  int topMargin
+  required String mCodeId,
+  required bool supportDeepLink,
+  double? expressViewWidth,
+  double? expressViewHeight,
+  bool? isCarousel,
+  int? interval,
+  int? topMargin
 }) async {
   return await _channel.invokeMethod("loadBannerAd", {
     "mCodeId": mCodeId,
@@ -103,9 +103,9 @@ Future loadBannerAd({
 }
 
 Future loadInterstitialAd({
-  @required String mCodeId,
-  double expressViewWidth,
-  double expressViewHeight
+  required String mCodeId,
+  double? expressViewWidth,
+  double? expressViewHeight
 }) async {
   return await _channel.invokeMethod("loadInterstitialAd",{
     "mCodeId": mCodeId,
