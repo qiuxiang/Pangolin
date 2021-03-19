@@ -1,7 +1,3 @@
-import 'dart:typed_data';
-
-import 'package:pangolin/pangolin.dart';
-
 const String _errCode = "errCode";
 const String _errStr = "errStr";
 
@@ -10,6 +6,7 @@ typedef BasePangolinResponse _PangolinResponseInvoker(Map? argument);
 Map<String, _PangolinResponseInvoker> _nameAndResponseMapper = {
   "onRewardResponse": (Map? argument) =>
       onRewardResponse.fromMap(argument!),
+  "onFullscreenAdClose": (map) => onFullscreenAdCloseResponse(),
 };
 
 class BasePangolinResponse {
@@ -31,8 +28,12 @@ class onRewardResponse extends BasePangolinResponse {
   final String? rewardName;
 
   onRewardResponse.fromMap(Map map)
-  : rewardVerify = map["rewardVerify"],
+      : rewardVerify = map["rewardVerify"],
         rewardAmount = map["rewardAmount"],
         rewardName = map["rewardName"],
-  super._(map[_errCode], map[_errStr]);
+        super._(map[_errCode], map[_errStr]);
+}
+
+class onFullscreenAdCloseResponse extends BasePangolinResponse {
+  onFullscreenAdCloseResponse() : super._(0, null);
 }

@@ -18,7 +18,9 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import com.bytedance.sdk.openadsdk.AdSlot;
 import com.bytedance.sdk.openadsdk.TTAdConstant;
 import com.bytedance.sdk.openadsdk.TTAdNative;
+import com.bytedance.sdk.openadsdk.TTAdSdk;
 import com.bytedance.sdk.openadsdk.TTAppDownloadListener;
+import com.bytedance.sdk.openadsdk.TTFullScreenVideoAd;
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd;
 
 import java.util.ArrayList;
@@ -304,6 +306,45 @@ public class PangolinPlugin implements FlutterPlugin, MethodCallHandler, Activit
       }
       initTTSDKConfig();
       this.loadExpressInterstitialAd(mCodeId,(int) expressViewWidth,(int) expressViewHeight);
+    }
+    else if (call.method.equals("loadFullscreenAd"))
+    {
+      TTAdNative mTTAdNative = TTAdSdk.getAdManager().createAdNative(activity);
+      AdSlot adSlot = new AdSlot.Builder()
+        .setCodeId((String) call.argument("mCodeId"))
+        .setOrientation(TTAdConstant.VERTICAL)
+        .build();
+      mTTAdNative.loadFullScreenVideoAd(adSlot, new TTAdNative.FullScreenVideoAdListener() {
+          @Override
+          public void onError(int code, String message) {}
+
+          @Override
+          public void onFullScreenVideoAdLoad(TTFullScreenVideoAd ad) {
+            ad.setFullScreenVideoAdInteractionListener(new TTFullScreenVideoAd.FullScreenVideoAdInteractionListener() {
+              @Override
+              public void onAdShow() {}
+
+              @Override
+              public void onAdVideoBarClick() {}
+
+              @Override
+              public void onAdClose() {
+                methodChannel.invokeMethod("onFullscreenAdClose", null);
+              }
+
+              @Override
+              public void onVideoComplete() {}
+
+              @Override
+              public void onSkippedVideo() {}
+            });
+            ad.showFullScreenVideoAd(activity, TTAdConstant.RitScenes.CUSTOMIZE_SCENES, null);
+          }
+
+          @Override
+          public void onFullScreenVideoCached() {}
+        }
+      );
     }
     else
     {

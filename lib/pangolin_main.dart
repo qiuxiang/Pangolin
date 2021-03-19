@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:io';
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:pangolin/pangolin.dart';
 
@@ -15,7 +13,7 @@ MethodChannel _channel = MethodChannel('com.tongyangsheng.pangolin')
   ..setMethodCallHandler(_methodHandler);
 
 StreamController<BasePangolinResponse> _pangolinResponseEventHandlerController =
-    new StreamController.broadcast();
+new StreamController.broadcast();
 
 Stream<BasePangolinResponse> get pangolinResponseEventHandler =>
     _pangolinResponseEventHandlerController.stream;
@@ -82,6 +80,12 @@ Future loadRewardAd({
   });
 }
 
+Future loadFullscreenAd({required String mCodeId}) async {
+  return await _channel.invokeMethod("loadFullscreenAd", {
+    "mCodeId": mCodeId,
+  });
+}
+
 Future loadBannerAd({
   required String mCodeId,
   required bool supportDeepLink,
@@ -107,7 +111,7 @@ Future loadInterstitialAd({
   double? expressViewWidth,
   double? expressViewHeight
 }) async {
-  return await _channel.invokeMethod("loadInterstitialAd",{
+  return await _channel.invokeMethod("loadInterstitialAd", {
     "mCodeId": mCodeId,
     "expressViewWidth": expressViewWidth,
     "expressViewHeight": expressViewHeight,
@@ -121,7 +125,7 @@ Future removeBannerAd() async
 
 Future _methodHandler(MethodCall methodCall) {
   var response =
-      BasePangolinResponse.create(methodCall.method, methodCall.arguments);
+  BasePangolinResponse.create(methodCall.method, methodCall.arguments);
   _pangolinResponseEventHandlerController.add(response);
   return Future.value();
 }
